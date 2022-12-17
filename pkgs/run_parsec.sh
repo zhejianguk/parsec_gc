@@ -28,9 +28,11 @@ for benchmark in ${BENCHMARKS[@]}; do
         echo "[======= Benchmark: ${benchmark} =======]"
         if [[ ${input:0:1} != '#' ]]; then # allow us to comment out lines in the cmd files
             cd ${run_dir}
-            cmd="time taskset -c 0 ${bin_dir}/${benchmark} ${input}"
+            cp ${bin_dir}/${benchmark} $run_dir
+            cmd="time taskset -c 0 ./${benchmark} ${input}"
             echo "workload=[${cmd}]"
             eval ${cmd}
+            rm ./${benchmark}
             ((count++))
         fi
     done

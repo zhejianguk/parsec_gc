@@ -46,7 +46,7 @@ export CXXFLAGS="$CXXFLAGS -fpermissive -fno-exceptions -std=c++17"
 export CPPFLAGS=""
 export CXXCPPFLAGS=""
 export LIBS=""
-export EXTRA_LIBS=""
+export EXTRA_LIBS="$PWD/pkgs/libs/gclib"
 export PARMACS_MACRO_FILE="pthreads"
 export LDFLAGS=""
 # Add PARSEC version to compiler flags

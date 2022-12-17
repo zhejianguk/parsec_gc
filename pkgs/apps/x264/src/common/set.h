@@ -1,7 +1,7 @@
 /*****************************************************************************
- * set.h: h264 encoder
+ * set.h: quantization init
  *****************************************************************************
- * Copyright (C) 2003-2008 x264 project
+ * Copyright (C) 2003-2017 x264 project
  *
  * Authors: Loren Merritt <lorenm@u.washington.edu>
  *          Laurent Aimar <fenrir@via.ecp.fr>
@@ -19,6 +19,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02111, USA.
+ *
+ * This program is also available under a commercial proprietary license.
+ * For more information, contact us at licensing@x264.com.
  *****************************************************************************/
 
 #ifndef X264_SET_H
@@ -28,12 +31,18 @@ enum profile_e
 {
     PROFILE_BASELINE = 66,
     PROFILE_MAIN     = 77,
-    PROFILE_EXTENDED = 88,
     PROFILE_HIGH    = 100,
     PROFILE_HIGH10  = 110,
     PROFILE_HIGH422 = 122,
-    PROFILE_HIGH444 = 144,
     PROFILE_HIGH444_PREDICTIVE = 244,
+};
+
+enum chroma_format_e
+{
+    CHROMA_400 = 0,
+    CHROMA_420 = 1,
+    CHROMA_422 = 2,
+    CHROMA_444 = 3,
 };
 
 enum cqm4_e
@@ -46,7 +55,9 @@ enum cqm4_e
 enum cqm8_e
 {
     CQM_8IY = 0,
-    CQM_8PY = 1
+    CQM_8PY = 1,
+    CQM_8IC = 2,
+    CQM_8PC = 3,
 };
 
 typedef struct
@@ -59,18 +70,13 @@ typedef struct
     int b_constraint_set0;
     int b_constraint_set1;
     int b_constraint_set2;
+    int b_constraint_set3;
 
     int i_log2_max_frame_num;
 
     int i_poc_type;
     /* poc 0 */
     int i_log2_max_poc_lsb;
-    /* poc 1 */
-    int b_delta_pic_order_always_zero;
-    int i_offset_for_non_ref_pic;
-    int i_offset_for_top_to_bottom_field;
-    int i_num_ref_frames_in_poc_cycle;
-    int i_offset_for_ref_frame[256];
 
     int i_num_ref_frames;
     int b_gaps_in_frame_num_value_allowed;
@@ -112,10 +118,31 @@ typedef struct
         int i_chroma_loc_bottom;
 
         int b_timing_info_present;
-        int i_num_units_in_tick;
-        int i_time_scale;
+        uint32_t i_num_units_in_tick;
+        uint32_t i_time_scale;
         int b_fixed_frame_rate;
 
+        int b_nal_hrd_parameters_present;
+        int b_vcl_hrd_parameters_present;
+
+        struct
+        {
+            int i_cpb_cnt;
+            int i_bit_rate_scale;
+            int i_cpb_size_scale;
+            int i_bit_rate_value;
+            int i_cpb_size_value;
+            int i_bit_rate_unscaled;
+            int i_cpb_size_unscaled;
+            int b_cbr_hrd;
+
+            int i_initial_cpb_removal_delay_length;
+            int i_cpb_removal_delay_length;
+            int i_dpb_output_delay_length;
+            int i_time_offset_length;
+        } hrd;
+
+        int b_pic_struct_present;
         int b_bitstream_restriction;
         int b_motion_vectors_over_pic_boundaries;
         int i_max_bytes_per_pic_denom;
@@ -129,6 +156,7 @@ typedef struct
     } vui;
 
     int b_qpprime_y_zero_transform_bypass;
+    int i_chroma_format_idc;
 
 } x264_sps_t;
 
@@ -142,8 +170,8 @@ typedef struct
     int b_pic_order;
     int i_num_slice_groups;
 
-    int i_num_ref_idx_l0_active;
-    int i_num_ref_idx_l1_active;
+    int i_num_ref_idx_l0_default_active;
+    int i_num_ref_idx_l1_default_active;
 
     int b_weighted_pred;
     int b_weighted_bipred;
@@ -160,7 +188,7 @@ typedef struct
     int b_transform_8x8_mode;
 
     int i_cqm_preset;
-    const uint8_t *scaling_list[6]; /* could be 8, but we don't allow separate Cb/Cr lists */
+    const uint8_t *scaling_list[8]; /* could be 12, but we don't allow separate Cb/Cr lists */
 
 } x264_pps_t;
 
@@ -212,11 +240,104 @@ static const uint8_t x264_cqm_flat16[64] =
     16,16,16,16,16,16,16,16,
     16,16,16,16,16,16,16,16
 };
-static const uint8_t * const x264_cqm_jvt[6] =
+static const uint8_t * const x264_cqm_jvt[8] =
 {
     x264_cqm_jvt4i, x264_cqm_jvt4p,
     x264_cqm_jvt4i, x264_cqm_jvt4p,
+    x264_cqm_jvt8i, x264_cqm_jvt8p,
     x264_cqm_jvt8i, x264_cqm_jvt8p
+};
+
+// 1080i25_avci50, 1080p25_avci50
+static const uint8_t x264_cqm_avci50_4ic[16] =
+{
+    16,22,28,40,
+    22,28,40,44,
+    28,40,44,48,
+    40,44,48,60
+};
+
+//  1080i25_avci50,
+static const uint8_t x264_cqm_avci50_1080i_8iy[64] =
+{
+    16,18,19,21,27,33,81,87,
+    18,19,21,24,30,33,81,87,
+    19,21,24,27,30,78,84,90,
+    21,24,27,30,33,78,84,90,
+    24,27,30,33,78,81,84,90,
+    24,27,30,33,78,81,84,93,
+    27,30,33,78,78,81,87,93,
+    30,33,33,78,81,84,87,96
+};
+
+//  1080p25_avci50, 720p25_avci50, 720p50_avci50
+static const uint8_t x264_cqm_avci50_p_8iy[64] =
+{
+    16,18,19,21,24,27,30,33,
+    18,19,21,24,27,30,33,78,
+    19,21,24,27,30,33,78,81,
+    21,24,27,30,33,78,81,84,
+    24,27,30,33,78,81,84,87,
+    27,30,33,78,81,84,87,90,
+    30,33,78,81,84,87,90,93,
+    33,78,81,84,87,90,93,96
+};
+
+//  1080i25_avci100, 1080p25_avci100
+static const uint8_t x264_cqm_avci100_1080_4ic[16] =
+{
+    16,20,26,32,
+    20,26,32,38,
+    26,32,38,44,
+    32,38,44,50
+};
+
+// 720p25_avci100, 720p50_avci100
+static const uint8_t x264_cqm_avci100_720p_4ic[16] =
+{
+    16,21,27,34,
+    21,27,34,41,
+    27,34,41,46,
+    34,41,46,54
+};
+
+//  1080i25_avci100,
+static const uint8_t x264_cqm_avci100_1080i_8iy[64] =
+{
+    16,19,20,23,24,26,32,42,
+    18,19,22,24,26,32,36,42,
+    18,20,23,24,26,32,36,63,
+    19,20,23,26,32,36,42,63,
+    20,22,24,26,32,36,59,63,
+    22,23,24,26,32,36,59,68,
+    22,23,24,26,32,42,59,68,
+    22,23,24,26,36,42,59,72
+};
+
+// 1080p25_avci100,
+static const uint8_t x264_cqm_avci100_1080p_8iy[64] =
+{
+    16,18,19,20,22,23,24,26,
+    18,19,20,22,23,24,26,32,
+    19,20,22,23,24,26,32,36,
+    20,22,23,24,26,32,36,42,
+    22,23,24,26,32,36,42,59,
+    23,24,26,32,36,42,59,63,
+    24,26,32,36,42,59,63,68,
+    26,32,36,42,59,63,68,72
+};
+
+// 720p25_avci100, 720p50_avci100
+static const uint8_t x264_cqm_avci100_720p_8iy[64] =
+{
+    16,18,19,21,22,24,26,32,
+    18,19,19,21,22,24,26,32,
+    19,19,21,22,22,24,26,32,
+    21,21,22,22,23,24,26,34,
+    22,22,22,23,24,25,26,34,
+    24,24,24,24,25,26,34,36,
+    26,26,26,26,26,34,36,38,
+    32,32,32,34,34,36,38,42
 };
 
 int  x264_cqm_init( x264_t *h );

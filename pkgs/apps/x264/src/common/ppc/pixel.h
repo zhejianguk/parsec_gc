@@ -1,7 +1,9 @@
 /*****************************************************************************
- * pixel.h: h264 encoder library
+ * pixel.h: ppc pixel metrics
  *****************************************************************************
- * Copyright (C) 2003-2004 Eric Petit <eric.petit@lapsus.org>
+ * Copyright (C) 2003-2017 x264 project
+ *
+ * Authors: Eric Petit <eric.petit@lapsus.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,11 +18,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02111, USA.
+ *
+ * This program is also available under a commercial proprietary license.
+ * For more information, contact us at licensing@x264.com.
  *****************************************************************************/
 
 #ifndef X264_PPC_PIXEL_H
 #define X264_PPC_PIXEL_H
 
-void x264_pixel_altivec_init( x264_pixel_function_t *pixf );
+void x264_pixel_init_altivec( x264_pixel_function_t *pixf );
 
 #endif
