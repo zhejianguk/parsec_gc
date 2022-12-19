@@ -1,6 +1,6 @@
 #!/bin/bash
 
-input_type=simsmall
+input_type=simmedium
 arch=amd64-linux # Revist: currently is the arch of the host machine
 
 
@@ -29,7 +29,7 @@ for benchmark in ${BENCHMARKS[@]}; do
         if [[ ${input:0:1} != '#' ]]; then # allow us to comment out lines in the cmd files
             cd ${run_dir}
             cp ${bin_dir}/${benchmark} $run_dir
-            cmd="time taskset -c 0 ./${benchmark} ${input}"
+            cmd="time ./${benchmark} ${input}"
             echo "workload=[${cmd}]"
             eval ${cmd}
             rm ./${benchmark}
