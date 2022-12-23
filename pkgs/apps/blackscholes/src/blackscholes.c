@@ -12,6 +12,9 @@
 #include <math.h>
 #include <string.h>
 
+extern void gcStartup (void);
+extern void gcCleanup (void);
+
 #ifdef ENABLE_PARSEC_HOOKS
 #include <hooks.h>
 #endif
@@ -314,6 +317,8 @@ int bs_thread(void *tid_ptr) {
 
 int main (int argc, char **argv)
 {
+    gcStartup ();
+
     FILE *file;
     int i;
     int loopnum;
@@ -505,6 +510,7 @@ int main (int argc, char **argv)
     __parsec_bench_end();
 #endif
 
+    gcCleanup ();
     return 0;
 }
 

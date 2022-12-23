@@ -66,6 +66,9 @@ static int omp_get_max_threads() {return 1;}
 
 #define LINT sizeof(int)
 
+extern void gcStartup (void);
+extern void gcCleanup (void);
+
 int** ITlen;
 int** bran;
 int** prefix;
@@ -103,6 +106,7 @@ void printLen()
 
 int main(int argc, char **argv)
 {
+	gcStartup ();
 	double tstart, tdatap, tend;
 	int workingthread=omp_get_max_threads();
 	int i;
@@ -204,6 +208,7 @@ int main(int argc, char **argv)
 #ifdef ENABLE_PARSEC_HOOKS
 	__parsec_bench_end();
 #endif
-	
+
+	gcCleanup ();
 	return 0;
 }

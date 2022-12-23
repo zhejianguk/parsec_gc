@@ -21,6 +21,8 @@
 #include <hooks.h>
 #endif //ENABLE_PARSEC_HOOKS
 
+extern void gcStartup (void);
+extern void gcCleanup (void);
 
 config_t * conf;
 
@@ -43,6 +45,7 @@ usage(char* prog)
 }
 /*--------------------------------------------------------------------------*/
 int main(int argc, char** argv) {
+  gcStartup ();
 #ifdef PARSEC_VERSION
 #define __PARSEC_STRING(x) #x
 #define __PARSEC_XSTRING(x) __PARSEC_STRING(x)
@@ -163,7 +166,7 @@ int main(int argc, char** argv) {
 #ifdef ENABLE_PARSEC_HOOKS
   __parsec_bench_end();
 #endif
-
+  gcCleanup ();
   return 0;
 }
 

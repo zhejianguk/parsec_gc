@@ -16,6 +16,9 @@
 #include <sys/resource.h>
 #include <limits.h>
 
+extern void gcStartup (void);
+extern void gcCleanup (void);
+
 #ifdef ENABLE_THREADS
 #include <pthread.h>
 #include "parsec_barrier.hpp"
@@ -1959,6 +1962,7 @@ void streamCluster( PStream* stream,
 
 int main(int argc, char **argv)
 {
+  gcStartup();
   char *outfilename = new char[MAXNAMESIZE];
   char *infilename = new char[MAXNAMESIZE];
   long kmin, kmax, n, chunksize, clustersize;
@@ -2039,5 +2043,6 @@ int main(int argc, char **argv)
   __parsec_bench_end();
 #endif
   
+  gcCleanup ();
   return 0;
 }
