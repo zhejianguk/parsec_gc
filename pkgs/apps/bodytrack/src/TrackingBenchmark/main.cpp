@@ -65,8 +65,8 @@ using namespace tbb;
 #include "TrackingModel.h"
 #include "system.h"
 
-extern void gcStartup (void);
-extern void gcCleanup (void);
+// extern void gcStartup (void);
+// extern void gcCleanup (void);
 
 using namespace std;
 
@@ -369,7 +369,7 @@ int mainSingleThread(string path, int cameras, int frames, int particles, int la
 
 int main(int argc, char **argv)
 {
-	gcStartup ();
+	// gcStartup ();
 	string path;
 	bool OutputBMP;
 	int cameras, frames, particles, layers, threads, threadModel;								//process command line parameters to get path, cameras, and frames
@@ -456,6 +456,6 @@ int main(int argc, char **argv)
         __parsec_bench_end();
 #endif
 
-	gcCleanup ();
+	// gcCleanup ();
 	return 0;
 }

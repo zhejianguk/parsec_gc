@@ -3,7 +3,7 @@
 input_type=simmedium
 
 
-BENCHMARKS=(blackscholes bodytrack dedup facesim fluidanimate freqmine streamcluster swaptions x264)
+BENCHMARKS=(blackscholes bodytrack)
 
 cmd="parsecmgmt -a clean -p all"
 eval ${cmd}

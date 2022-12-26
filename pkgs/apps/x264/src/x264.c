@@ -45,8 +45,8 @@
 #include "output/output.h"
 #include "filters/filters.h"
 
-extern void gcStartup (void);
-extern void gcCleanup (void);
+// extern void gcStartup (void);
+// extern void gcCleanup (void);
 
 #define FAIL_IF_ERROR( cond, ... ) FAIL_IF_ERR( cond, "x264", __VA_ARGS__ )
 
@@ -354,7 +354,7 @@ static void print_version_info( void )
 
 int main( int argc, char **argv )
 {
-    gcStartup ();
+    // gcStartup ();
     x264_param_t param;
     cli_opt_t opt = {0};
     int ret = 0;
@@ -2035,6 +2035,6 @@ fail:
                  (double) i_file * 8 / ( 1000 * duration ) );
     }
 
-    gcCleanup ();
+    // gcCleanup ();
     return retval;
 }

@@ -32,8 +32,8 @@ Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #include <../image/image.h>
 #include "tpool.h"
 #include "queue.h"
-extern void gcStartup (void);
-extern void gcCleanup (void);
+// extern void gcStartup (void);
+// extern void gcCleanup (void);
 
 #ifdef ENABLE_PARSEC_HOOKS
 #include <hooks.h>
@@ -412,7 +412,7 @@ void *t_out (void *dummy)
 
 int main (int argc, char *argv[])
 {
-	gcStartup ();
+	// gcStartup ();
 	stimer_t tmr;
 
 	tdesc_t *t_load_desc;
@@ -602,7 +602,7 @@ int main (int argc, char *argv[])
 #ifdef ENABLE_PARSEC_HOOKS
 	__parsec_bench_end();
 #endif
-	gcCleanup ();
+	// gcCleanup ();
 	return 0;
 }
 

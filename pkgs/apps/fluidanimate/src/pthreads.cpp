@@ -29,8 +29,8 @@
 #include <hooks.h>
 #endif
 
-extern void gcStartup (void);
-extern void gcCleanup (void);
+// extern void gcStartup (void);
+// extern void gcCleanup (void);
 //Uncomment to add code to check that Courant–Friedrichs–Lewy condition is satisfied at runtime
 //#define ENABLE_CFL_CHECK
 
@@ -1200,7 +1200,7 @@ void AdvanceFrameVisualization()
 
 int main(int argc, char *argv[])
 {
-  gcStartup ();
+  // gcStartup ();
 
 #ifdef PARSEC_VERSION
 #define __PARSEC_STRING(x) #x
@@ -1275,7 +1275,7 @@ int main(int argc, char *argv[])
   __parsec_bench_end();
 #endif
 
-  gcCleanup ();
+  // gcCleanup ();
   return 0;
 }
 

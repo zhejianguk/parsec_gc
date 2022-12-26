@@ -34,8 +34,8 @@ tbb::cache_aligned_allocator<parm> memory_parm;
 #include <hooks.h>
 #endif
 
-extern void gcStartup (void);
-extern void gcCleanup (void);
+// extern void gcStartup (void);
+// extern void gcCleanup (void);
 
 int NUM_TRIALS = DEFAULT_NUM_TRIALS;
 int nThreads = 1;
@@ -135,7 +135,7 @@ void print_usage(char *name) {
 
 int main(int argc, char *argv[])
 {
-  gcStartup ();
+  // gcStartup ();
 
 	int iSuccess = 0;
 	int i,j;
@@ -341,6 +341,6 @@ int main(int argc, char *argv[])
 	__parsec_bench_end();
 #endif
 
-  gcCleanup ();
+  // gcCleanup ();
 	return iSuccess;
 }
