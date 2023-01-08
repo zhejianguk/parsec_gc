@@ -1,14 +1,25 @@
 #!/bin/bash
 
+gc_kernel=none
+
+# Input flags
+while getopts k: flag
+do
+	case "${flag}" in
+		k) gc_kernel=${OPTARG};;
+	esac
+done
+
 input_type=simmedium
 arch=amd64-linux # Revist: currently is the arch of the host machine
-gc_kernel=pmc
 
 
 BENCHMARKS=(blackscholes bodytrack dedup facesim ferret fluidanimate freqmine streamcluster swaptions x264)
 base_dir=$PWD
 
-./initialisation_${gc_kernel}.riscv
+if [ $gc_kernel != "none" ]; then 
+    ./initialisation_${gc_kernel}.riscv
+fi
 
 for benchmark in ${BENCHMARKS[@]}; do
     sub_dir=apps
