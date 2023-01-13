@@ -10,6 +10,8 @@ autom4te.cache
 inst
 obj
 run
+*.riscv
+*.o
 
 # info
 /pkgs/libs/gsl/src/doc/gsl-ref.info*

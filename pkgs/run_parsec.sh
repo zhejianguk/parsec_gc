@@ -14,7 +14,9 @@ input_type=simmedium
 arch=amd64-linux # Revist: currently is the arch of the host machine
 
 
-BENCHMARKS=(blackscholes bodytrack dedup facesim ferret fluidanimate freqmine streamcluster swaptions x264)
+BENCHMARKS=(dedup swaptions x264)
+#  BENCHMARKS=(blackscholes bodytrack dedup facesim ferret fluidanimate freqmine streamcluster swaptions x264)
+
 base_dir=$PWD
 
 if [ $gc_kernel != "none" ]; then 
