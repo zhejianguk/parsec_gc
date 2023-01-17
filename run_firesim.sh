@@ -59,3 +59,11 @@ eval ${cmd}
 cmd="firesim launchrunfarm && firesim infrasetup && firesim runworkload"
 echo "${cmd}"
 eval ${cmd}
+
+cmd="echo yes | firesim terminaterunfarm"
+echo "${cmd}"
+eval ${cmd}
+
+cmd="sudo poweroff -f"
+echo "${cmd}"
+eval ${cmd}
