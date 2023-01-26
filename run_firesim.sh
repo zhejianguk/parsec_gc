@@ -51,6 +51,10 @@ cmd="./marshal build gc-workloads/gc-fed.json"
 echo "${cmd}"
 eval ${cmd}
 
+# cmd="./marshal launch gc-workloads/gc-fed.json"
+# echo "${cmd}"
+# eval ${cmd}
+
 cd images
 cmd="cp -rf gc-fed-bin gc-fed.img ${path_firesim_workloads}"
 echo "${cmd}"
@@ -64,6 +68,6 @@ cmd="echo yes | firesim terminaterunfarm"
 echo "${cmd}"
 eval ${cmd}
 
-cmd="sudo poweroff -f"
-echo "${cmd}"
-eval ${cmd}
+# cmd="sudo poweroff -f"
+# echo "${cmd}"
+# eval ${cmd}
