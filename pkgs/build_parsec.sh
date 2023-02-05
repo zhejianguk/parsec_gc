@@ -36,8 +36,8 @@ fi
 
 cd $PATH_PKGS
 
-# BENCHMARKS=(blackscholes bodytrack dedup facesim ferret fluidanimate freqmine streamcluster swaptions x264)
 BENCHMARKS=(blackscholes bodytrack dedup facesim ferret fluidanimate freqmine streamcluster swaptions x264)
+
 cmd="parsecmgmt -a clean -p all"
 eval ${cmd}
 cmd="parsecmgmt -a fulluninstall -p all"

@@ -1,1 +1,0 @@
-corel lsh queries 10 20 1 output.txt

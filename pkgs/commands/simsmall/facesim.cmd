@@ -1,1 +1,0 @@
--timing -threads 1
