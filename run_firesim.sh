@@ -17,7 +17,7 @@ workload_name=parsec
 
 path_firesim_sw=${path_firesim}/sw/firesim-software
 path_firesim_sw_workloads=${path_firesim_sw}/gc-${workload_name}-workloads/gc-${workload_name}/overlay/root
-path_firesim_workloads=${path_firesim}/deploy/workloads/gc-fed
+path_firesim_workloads=${path_firesim}/deploy/workloads/gc-parsec
 
 
 path_parsec_pkgs=${path_parsec}/pkgs
@@ -64,9 +64,9 @@ cmd="./marshal build gc-${workload_name}-workloads/gc-${workload_name}.json"
 echo "${cmd}"
 eval ${cmd}
 
-cmd="./marshal launch gc-${workload_name}-workloads/gc-${workload_name}.json"
-echo "${cmd}"
-eval ${cmd}
+# cmd="./marshal launch gc-${workload_name}-workloads/gc-${workload_name}.json"
+# echo "${cmd}"
+# eval ${cmd}
 
 cd images
 cd gc-${workload_name}
