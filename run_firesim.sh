@@ -15,7 +15,7 @@ path_firesim=/home/centos/firesim
 path_parsec=/home/centos/parsec_gc
 workload_name=parsec
 
-path_firesim_sw=${path_firesim}/sw/firesim-software
+path_firesim_sw=${path_firesim}/sw/FireMarshal
 path_firesim_sw_workloads=${path_firesim_sw}/gc-${workload_name}-workloads/gc-${workload_name}/overlay/root
 path_firesim_workloads=${path_firesim}/deploy/workloads/gc-parsec
 

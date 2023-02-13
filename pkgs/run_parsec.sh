@@ -13,6 +13,7 @@ done
 input_type=simmedium
 arch=amd64-linux # Revist: currently is the arch of the host machine
 
+cp ./libgomp.so.1 /usr/lib64/
 
 BENCHMARKS=(blackscholes bodytrack dedup facesim ferret fluidanimate freqmine streamcluster swaptions x264)
 base_dir=$PWD
