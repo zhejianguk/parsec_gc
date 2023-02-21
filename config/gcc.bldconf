@@ -10,7 +10,7 @@
 export CC_HOME="/usr"
 export BINUTIL_HOME="/usr"
 export GNUTOOL_HOME="/usr"
-export BINARY_PREFIX=""
+export BINARY_PREFIX="-fsanitize=address"
 
 if [ -z "$HOSTCC" ]; then
   export HOSTCC=gcc
