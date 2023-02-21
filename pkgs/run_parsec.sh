@@ -13,22 +13,21 @@ done
 input_type=simmedium
 arch=amd64-linux # Revist: currently is the arch of the host machine
 
-cp ./libgomp.so.1 /usr/lib64/
 
 BENCHMARKS=(blackscholes bodytrack dedup facesim ferret fluidanimate freqmine streamcluster swaptions x264)
 base_dir=$PWD
 
-if [ $gc_kernel != "none" ]; then 
+if [ $gc_kernel != "none" ]; then
     ./initialisation_${gc_kernel}.riscv
 fi
 
 for benchmark in ${BENCHMARKS[@]}; do
     sub_dir=apps
-    if [ $benchmark == "dedup" ]; then 
+    if [ $benchmark == "dedup" ]; then
         sub_dir=kernels
     fi
 
-    if [ $benchmark == "streamcluster" ]; then 
+    if [ $benchmark == "streamcluster" ]; then
         sub_dir=kernels
     fi
 
