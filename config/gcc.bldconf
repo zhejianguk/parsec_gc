@@ -39,14 +39,14 @@ export RANLIB="${TARGET_CROSS}ranlib"
 export STRIP="${TARGET_CROSS}strip"
 
 # Arguments to use
-export CFLAGS=" $CFLAGS -fsanitize=address"
-export CXXFLAGS="$CXXFLAGS -fpermissive -fno-exceptions -std=c++17 -fsanitize=address"
-export CPPFLAGS="-fsanitize=address"
-export CXXCPPFLAGS="-fsanitize=address"
+export CFLAGS=" $CFLAGS"
+export CXXFLAGS="$CXXFLAGS -fpermissive -fno-exceptions -std=c++17"
+export CPPFLAGS=""
+export CXXCPPFLAGS="s"
 export LIBS="$GC_Kernel"
 export EXTRA_LIBS=""
 export PARMACS_MACRO_FILE="pthreads"
-export LDFLAGS="-fsanitize=address"
+export LDFLAGS=""
 # Add PARSEC version to compiler flags
 if [ -f "${PARSECDIR}/version" ]; then
   CFLAGS="${CFLAGS} -DPARSEC_VERSION=$(${CAT} ${PARSECDIR}/version)"
