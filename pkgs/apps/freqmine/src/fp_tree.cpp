@@ -721,7 +721,7 @@ void FP_tree::database_tiling(int workingthread)
 		unsigned short *new_content;
 		int *local_threadntypeoffsetiter = threadntypeoffsetiter[i];
 		current_mapfilenode = thread_mapfile[i]->first;
-		while (current_mapfilenode) {
+		if (current_mapfilenode) {
 			size = current_mapfilenode->top;
 			current_pos = 0;
 			content = (unsigned short *)current_mapfilenode->TransactionContent;
