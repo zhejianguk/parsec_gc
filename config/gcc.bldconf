@@ -10,7 +10,8 @@
 export CC_HOME="/usr"
 export BINUTIL_HOME="/usr"
 export GNUTOOL_HOME="/usr"
-export BINARY_PREFIX="-fsanitize=address"
+export BINARY_PREFIX=""
+export GC_KERNEL=""
 
 if [ -z "$HOSTCC" ]; then
   export HOSTCC=gcc
@@ -39,14 +40,14 @@ export RANLIB="${TARGET_CROSS}ranlib"
 export STRIP="${TARGET_CROSS}strip"
 
 # Arguments to use
-export CFLAGS=" $CFLAGS"
-export CXXFLAGS="$CXXFLAGS -fpermissive -fno-exceptions -std=c++17"
-export CPPFLAGS=""
-export CXXCPPFLAGS=""
-export LIBS=""
-export EXTRA_LIBS=""
+export CFLAGS=" $CFLAGS -fsanitize=address"
+export CXXFLAGS="$CXXFLAGS -fpermissive -fno-exceptions -std=c++17 -fsanitize=address"
+export CPPFLAGS="-fsanitize=address"
+export CXXCPPFLAGS="-fsanitize=address"
+export LIBS="-fsanitize=address"
+export EXTRA_LIBS="-fsanitize=address"
 export PARMACS_MACRO_FILE="pthreads"
-export LDFLAGS=""
+export LDFLAGS="-fsanitize=address"
 # Add PARSEC version to compiler flags
 if [ -f "${PARSECDIR}/version" ]; then
   CFLAGS="${CFLAGS} -DPARSEC_VERSION=$(${CAT} ${PARSECDIR}/version)"
