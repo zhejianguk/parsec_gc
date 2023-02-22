@@ -102,3 +102,4 @@ else
   export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${PARSECDIR}/pkgs/libs/hooks/inst/${PARSECPLAT}/lib"
 fi
 
+export ASAN_OPTIONS=halt_on_error=0:use_sigaltstack=0:detect_leaks=1:allow_user_segv_handler=1:malloc_context_size=15:log_path=./asan.log:suppressions=$SUPP_FILE
