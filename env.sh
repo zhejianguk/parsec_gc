@@ -101,5 +101,3 @@ if [ -z "${LD_LIBRARY_PATH}" ]; then
 else
   export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${PARSECDIR}/pkgs/libs/hooks/inst/${PARSECPLAT}/lib"
 fi
-
-export ASAN_OPTIONS=halt_on_error=0:log_path=./asan.log
