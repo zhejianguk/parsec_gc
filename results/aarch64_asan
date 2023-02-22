@@ -5,8 +5,8 @@ Num of Options: 16384
 Num of Runs: 100
 Size of data: 655360
 
-real	0m1.071s
-user	0m1.063s
+real	0m1.062s
+user	0m1.055s
 sys	0m0.008s
 
 [======= Benchmark: bodytrack =======]
@@ -20,9 +20,9 @@ Using dataset : sequenceB_2/
 Processing frame 0
 Processing frame 1
 
-real	0m3.144s
-user	0m3.116s
-sys	0m0.048s
+real	0m3.054s
+user	0m3.054s
+sys	0m0.016s
 
 [======= Benchmark: dedup =======]
 workload=[time ./dedup -c -p -v -t 1 -i media.dat -o output.dat.ddp]
@@ -37,9 +37,9 @@ Data size after deduplication:          30.69 MB (compression factor: 1.00x)
 Data size after compression:            28.98 MB (compression factor: 1.06x)
 Output overhead:                         0.26%
 
-real	0m3.592s
-user	0m3.785s
-sys	0m0.357s
+real	0m3.312s
+user	0m3.646s
+sys	0m0.178s
 
 [======= Benchmark: facesim =======]
 workload=[time ./facesim -timing -threads 1]
@@ -51,66 +51,66 @@ muscles = 32
 attachments = 3
 
   Frame 1                                         
-  END Frame 1                                      19.6434 s
+  END Frame 1                                      19.6182 s
 SIMULATION                                          0.0000
-  FRAME                                            19.6434
-    ADB                                            19.6394
-      UPBS                                          2.8372
-        UPBS (FEM) - Initialize                     0.3461 s
-        UPBS (FEM) - Element Loop                   2.4904 s
+  FRAME                                            19.6182
+    ADB                                            19.6140
+      UPBS                                          2.7905
+        UPBS (FEM) - Initialize                     0.2310 s
+        UPBS (FEM) - Element Loop                   2.5587 s
         UPBS (CPF)                                  0.0000 s
-      ADO                                          16.8021
+      ADO                                          16.8235
         ADO - Update collision bodies               0.0000 s
-        AOTSQ                                      16.8020
-          AOTSQ - Initialize                        0.0061 s
-          AOTSQ - NR loop                          16.7958
-            AOTSQ - NR loop - Initialize            0.0016 s
-            UCPF                                    0.2659 s
-            NRS                                    13.5082
+        AOTSQ                                      16.8233
+          AOTSQ - Initialize                        0.0019 s
+          AOTSQ - NR loop                          16.8212
+            AOTSQ - NR loop - Initialize            0.0017 s
+            UCPF                                    0.2680 s
+            NRS                                    13.5677
               NRS - Initialize                      0.0000 s
-              NRS - Boundary conditions 1           0.0017 s
-              UPBS                                  2.7696
+              NRS - Boundary conditions 1           0.0015 s
+              UPBS                                  2.8677
                 UPBS (FEM) - Initialize             0.0000 s
-                UPBS (FEM) - Element Loop           2.7694 s
+                UPBS (FEM) - Element Loop           2.8675 s
                 UPBS (CPF)                          0.0000 s
-              AFD (FEM)                             0.0368 s
-              AVIF                                  0.2040
-                AVIF (FEM)                          0.2031 s
+              AFD (FEM)                             0.0386 s
+              AVIF                                  0.2118
+                AVIF (FEM)                          0.2112 s
                 AVIF (CPF)                          0.0004 s
               NRS - Boundary conditions 2           0.0002 s
               NRS - Compute residual                0.0017
-              NRS - Copy initial guess              0.0057 s
-            UPBS                                    2.8020
+              NRS - Copy initial guess              0.0016 s
+            UPBS                                    2.7744
               UPBS (FEM) - Initialize               0.0000 s
-              UPBS (FEM) - Element Loop             2.8018 s
+              UPBS (FEM) - Element Loop             2.7743 s
               UPBS (CPF)                            0.0000 s
-            AVIF                                    0.2148
-              AVIF (FEM)                            0.2143 s
+            AVIF                                    0.2058
+              AVIF (FEM)                            0.2052 s
               AVIF (CPF)                            0.0004 s
             AOTSQ - NR loop - Boundary conditions   0.0002 s
-            AOTSQ - NR loop - Compute residual      0.0009 s
+            AOTSQ - NR loop - Compute residual      0.0011 s
 
-real	0m34.028s
-user	0m28.399s
-sys	0m5.636s
+real	0m29.983s
+user	0m27.785s
+sys	0m2.199s
 
 [======= Benchmark: ferret =======]
 workload=[time ./ferret corel lsh queries 10 20 1 output.txt]
 PARSEC Benchmark Suite Version 3.0-beta-20150206
 (5,1)
 (20,2)
-(27,3)
-(30,4)
-(36,5)
+(26,3)
+(29,4)
+(35,5)
 (39,6)
-(43,7)
-(45,8)
-(46,9)
-(47,10)
+(42,7)
+(43,8)
+(45,9)
+(46,10)
 (49,11)
-(51,12)
-(52,13)
-(55,14)
+(50,12)
+(51,13)
+(54,14)
 (58,15)
 (64,16)
 (64,17)
@@ -163,9 +163,9 @@ PARSEC Benchmark Suite Version 3.0-beta-20150206
 (64,64)
 QUERY TIME: 1.490 seconds
 
-real	0m2.510s
-user	0m3.096s
-sys	0m0.098s
+real	0m2.501s
+user	0m3.062s
+sys	0m0.118s
 
 [======= Benchmark: fluidanimate =======]
 workload=[time ./fluidanimate 1 5 in_100K.fluid out.fluid]
@@ -176,29 +176,29 @@ Grids steps over x, y, z: 0.0040625 0.004 0.0040625
 Number of particles: 102850
 Saving file "out.fluid"...
 
-real	0m3.543s
-user	0m3.517s
-sys	0m0.024s
+real	0m3.591s
+user	0m3.555s
+sys	0m0.036s
 
 [======= Benchmark: freqmine =======]
 workload=[time ./freqmine kosarak_500k.dat 410]
 PARSEC Benchmark Suite Version 3.0-beta-20150206
 transaction number is 500000
 1522
-the data preparation cost 0.260275 seconds, the FPgrowth cost 0.108355 seconds
+the data preparation cost 0.258932 seconds, the FPgrowth cost 0.110418 seconds
 
-real	0m1.447s
-user	0m1.220s
-sys	0m0.243s
+real	0m1.351s
+user	0m1.116s
+sys	0m0.263s
 
 [======= Benchmark: streamcluster =======]
 workload=[time ./streamcluster 10 20 64 8192 8192 1000 none output.txt 1]
 PARSEC Benchmark Suite Version 3.0-beta-20150206
 read 8192 points
 
-real	0m5.773s
-user	0m5.761s
-sys	0m0.008s
+real	0m5.902s
+user	0m5.878s
+sys	0m0.024s
 
 [======= Benchmark: swaptions =======]
 workload=[time ./swaptions -ns 32 -sm 20000 -nt 1]
@@ -237,18 +237,18 @@ Swaption 29: [SwaptionPrice: 2.6783493053 StdError: 0.0006944337]
 Swaption 30: [SwaptionPrice: 59.0563611114 StdError: 0.0091514735] 
 Swaption 31: [SwaptionPrice: 23.8756194750 StdError: 0.0031233886] 
 
-real	0m2.568s
-user	0m2.457s
-sys	0m0.108s
+real	0m2.565s
+user	0m2.470s
+sys	0m0.096s
 
 [======= Benchmark: x264 =======]
 workload=[time ./x264  --quiet --qp 20 --partitions b8x8,i4x4 --ref 5 --direct auto  --weightb --mixed-refs --no-fast-pskip --me umh --subme 7 --analyse b8x8,i4x4 --threads 1 -o eledream.264 eledream_640x360_32.y4m]
                                                                                
-encoded 32 frames, 3.45 fps, 5752.65 kb/s
+encoded 32 frames, 3.50 fps, 5752.65 kb/s
 
-real	0m10.164s
-user	0m10.130s
-sys	0m0.020s
+real	0m10.003s
+user	0m9.996s
+sys	0m0.008s
 
 
 All Done!
