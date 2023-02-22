@@ -7,12 +7,10 @@
 # Written by Christian Bienia (Initial version)
 #            Christian Fensch (Sparc/Solaris port)
 
-export CC_HOME="$RISCV"
-export BINUTIL_HOME="$RISCV"
+export CC_HOME="/usr"
+export BINUTIL_HOME="/usr"
 export GNUTOOL_HOME="/usr"
-export BINARY_PREFIX="riscv64-unknown-linux-gnu-"
-export GC_KERNEL="/home/centos/gc_kernel/gc_main_sanitiser.o"
-# export GC_KERNEL="/home/centos/gc_kernel/gc_main_sanitiser.o /home/centos/gc_kernel/malloc.o -Wl,--allow-multiple-definition"
+export GC_Kernel=""
 
 if [ -z "$HOSTCC" ]; then
   export HOSTCC=gcc
@@ -24,33 +22,31 @@ if [ -z "$MAKE" ]; then
   export MAKE=make
 fi
 if [ -z "$TARGET_CROSS" ]; then
-  export TARGET_CROSS="${RISCV}/bin/"
+  export TARGET_CROSS=/usr/bin/
 fi
 
-export CC_HOME="$RISCV"
-
 # Compilers and preprocessors
-export CC="${CC_HOME}/bin/${BINARY_PREFIX}gcc"
-export CXX="${CC_HOME}/bin/${BINARY_PREFIX}g++"
-export CPP="${CC_HOME}/bin/${BINARY_PREFIX}cpp"
+export CC="${TARGET_CROSS}gcc"
+export CXX="${TARGET_CROSS}g++"
+export CPP="${TARGET_CROSS}cpp"
 export CXXCPP=""
 
 # GNU Binutils
-export LD="${BINUTIL_HOME}/bin/${BINARY_PREFIX}ld"
-export AS="${BINUTIL_HOME}/bin/${BINARY_PREFIX}as"
-export AR="${BINUTIL_HOME}/bin/${BINARY_PREFIX}ar"
-export RANLIB="${BINUTIL_HOME}/bin/${BINARY_PREFIX}ranlib"
-export STRIP="${BINUTIL_HOME}/bin/${BINARY_PREFIX}strip"
+export LD="${TARGET_CROSS}ld"
+export AS="${TARGET_CROSS}as"
+export AR="${TARGET_CROSS}ar"
+export RANLIB="${TARGET_CROSS}ranlib"
+export STRIP="${TARGET_CROSS}strip"
 
 # Arguments to use
-export CFLAGS=" $CFLAGS"
-export CXXFLAGS="$CXXFLAGS -fpermissive -fno-exceptions -std=c++17"
-export CPPFLAGS=""
-export CXXCPPFLAGS=""
-export LIBS="${GC_KERNEL} -lpthread"
+export CFLAGS=" $CFLAGS -fsanitize=address"
+export CXXFLAGS="$CXXFLAGS -fpermissive -fno-exceptions -std=c++17 -fsanitize=address"
+export CPPFLAGS="-fsanitize=address"
+export CXXCPPFLAGS="-fsanitize=address"
+export LIBS="$GC_Kernel"
 export EXTRA_LIBS=""
 export PARMACS_MACRO_FILE="pthreads"
-export LDFLAGS=""
+export LDFLAGS="-fsanitize=address"
 # Add PARSEC version to compiler flags
 if [ -f "${PARSECDIR}/version" ]; then
   CFLAGS="${CFLAGS} -DPARSEC_VERSION=$(${CAT} ${PARSECDIR}/version)"
@@ -82,4 +78,3 @@ if [ -x ${JAVAC} ]; then
 else
   JAVAC_ver=""
 fi
-
