@@ -3,5 +3,5 @@
 source ${PARSECDIR}/pkgs/apps/x264/parsec/gcc.bldconf
 
 # Override configuration
-build_conf="--disable-pthread --extra-asflags=\"${ASFLAGS}\" --extra-cflags=\"${CFLAGS}\" --extra-ldflags=\"${LDFLAGS} ${LIBS}\""
+build_conf="--disable-pthread --extra-asflags=\"${ASFLAGS}\" --extra-cflags=\"${CFLAGS}\" --extra-ldflags=\"${LDFLAGS} ${LIBS}\" --host=riscv64-unknown-linux-gnu"
 

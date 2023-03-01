@@ -11,7 +11,7 @@ export CC_HOME="$RISCV"
 export BINUTIL_HOME="$RISCV"
 export GNUTOOL_HOME="/usr"
 export BINARY_PREFIX="riscv64-unknown-linux-gnu-"
-export GC_KERNEL="/home/centos/gc_kernel/gc_main_sanitiser.o"
+export GC_KERNEL="/home/centos/gc_kernel/gc_main_ss.o"
 # export GC_KERNEL="/home/centos/gc_kernel/gc_main_sanitiser.o /home/centos/gc_kernel/malloc.o -Wl,--allow-multiple-definition"
 
 if [ -z "$HOSTCC" ]; then
@@ -30,7 +30,7 @@ fi
 export CC_HOME="$RISCV"
 
 # Compilers and preprocessors
-export CC="${CC_HOME}/bin/${BINARY_PREFIX}gcc"
+export CC="${CC_HOME}/bin/${BINARY_PREFIX}gcc -lstdc++"
 export CXX="${CC_HOME}/bin/${BINARY_PREFIX}g++"
 export CPP="${CC_HOME}/bin/${BINARY_PREFIX}cpp"
 export CXXCPP=""
@@ -43,9 +43,9 @@ export RANLIB="${BINUTIL_HOME}/bin/${BINARY_PREFIX}ranlib"
 export STRIP="${BINUTIL_HOME}/bin/${BINARY_PREFIX}strip"
 
 # Arguments to use
-export CFLAGS=" $CFLAGS"
-export CXXFLAGS="$CXXFLAGS -fpermissive -fno-exceptions -std=c++17"
-export CPPFLAGS=""
+export CFLAGS=" $CFLAGS -march=rv64imafd"
+export CXXFLAGS="$CXXFLAGS -fpermissive -fno-exceptions -std=c++17 -march=rv64imafd"
+export CPPFLAGS="-march=rv64imafd"
 export CXXCPPFLAGS=""
 export LIBS="${GC_KERNEL} -lpthread"
 export EXTRA_LIBS=""

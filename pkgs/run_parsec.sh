@@ -32,7 +32,7 @@ for benchmark in ${BENCHMARKS[@]}; do
         sub_dir=kernels
     fi
 
-    bin_dir=${base_dir}/${sub_dir}/${benchmark}/inst/${arch}.gcc/bin
+    bin_dir=${base_dir}/${sub_dir}/${benchmark}/inst/${arch}.gcc-serial/bin
     run_dir=${base_dir}/${sub_dir}/${benchmark}/run/
     command_dir=${base_dir}/commands/${input_type}
 
