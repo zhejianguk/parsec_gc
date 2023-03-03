@@ -43,9 +43,9 @@ export RANLIB="${BINUTIL_HOME}/bin/${BINARY_PREFIX}ranlib"
 export STRIP="${BINUTIL_HOME}/bin/${BINARY_PREFIX}strip"
 
 # Arguments to use
-export CFLAGS=" $CFLAGS -march=rv64imafd"
-export CXXFLAGS="$CXXFLAGS -fpermissive -fno-exceptions -std=c++17 -march=rv64imafd"
-export CPPFLAGS="-march=rv64imafd"
+export CFLAGS=" $CFLAGS"
+export CXXFLAGS="$CXXFLAGS -fpermissive -fno-exceptions -std=c++17"
+export CPPFLAGS=""
 export CXXCPPFLAGS=""
 export LIBS="${GC_KERNEL} -lpthread"
 export EXTRA_LIBS=""

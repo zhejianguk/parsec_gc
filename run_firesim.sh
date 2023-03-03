@@ -19,8 +19,9 @@ path_firesim_sw=${path_firesim}/sw/FireMarshal
 path_firesim_sw_workloads=${path_firesim_sw}/gc-${workload_name}-workloads/gc-${workload_name}/overlay/root
 path_firesim_workloads=${path_firesim}/deploy/workloads/gc-parsec
 
-
 path_parsec_pkgs=${path_parsec}/pkgs
+
+BENCHMARKS=(blackscholes bodytrack dedup facesim ferret fluidanimate freqmine streamcluster swaptions x264)
 
 cd ${path_firesim_sw_workloads}
 if [ -r "pkgs" ]; then
@@ -69,18 +70,22 @@ eval ${cmd}
 # eval ${cmd}
 
 cd images
-cd gc-${workload_name}
-cmd="cp -rf gc-${workload_name}-bin gc-${workload_name}.img ${path_firesim_workloads}"
-echo "${cmd}"
-eval ${cmd}
+for benchmark in ${BENCHMARKS[@]}; do
+    cd gc-${workload_name}-${benchmark}
+    # cmd="cp -rf gc-${workload_name}-bin gc-${workload_name}.img ${path_firesim_workloads}"
+    cmd="cp -rf gc-${workload_name}-${benchmark}-bin gc-${workload_name}-${benchmark}.img ${path_firesim_workloads}"
+    echo "${cmd}"
+    eval ${cmd}
+    cd ..
+done
 
 cmd="firesim launchrunfarm && firesim infrasetup && firesim runworkload"
 echo "${cmd}"
 eval ${cmd}
 
-cmd="echo yes | firesim terminaterunfarm"
-echo "${cmd}"
-eval ${cmd}
+# cmd="echo yes | firesim terminaterunfarm"
+# echo "${cmd}"
+# eval ${cmd}
 
 # cmd="sudo poweroff -f"
 # echo "${cmd}"
