@@ -24,8 +24,13 @@ make clean
 make gc_main_${gc_kernel}
 cp gc_main_${gc_kernel}.o $PATH_PKGS
 
-if [[ $gc_kernel == sanitiser ]]; then
+if [[ $gc_kernel != pmc ]]; then
     make malloc
+fi
+
+if [[ $gc_kernel == ss ]]; then
+    make gc_checker_ss
+    cp gc_checker_ss.riscv $PATH_PKGS
 fi
 
 

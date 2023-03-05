@@ -2,11 +2,13 @@
 
 # Input flags
 gc_kernel=none
+parallel=none
 
-while getopts k: flag
+while getopts k:p: flag
 do
 	case "${flag}" in
 		k) gc_kernel=${OPTARG};;
+        p) parallel=${OPTARG};;
 	esac
 done
 
@@ -55,6 +57,10 @@ cmd="./simplify_parsec.sh"
 echo "${cmd}"
 eval ${cmd}
 
+cd ../../
+cmd="cp run_parsec.sh ./overlay/root/pkgs"
+echo "${cmd}"
+eval ${cmd}
 
 cd ${path_firesim_sw}
 cmd="./marshal clean gc-${workload_name}-workloads/gc-${workload_name}.json"
@@ -69,23 +75,32 @@ eval ${cmd}
 # echo "${cmd}"
 # eval ${cmd}
 
-cd images
-for benchmark in ${BENCHMARKS[@]}; do
-    cd gc-${workload_name}-${benchmark}
-    # cmd="cp -rf gc-${workload_name}-bin gc-${workload_name}.img ${path_firesim_workloads}"
-    cmd="cp -rf gc-${workload_name}-${benchmark}-bin gc-${workload_name}-${benchmark}.img ${path_firesim_workloads}"
-    echo "${cmd}"
-    eval ${cmd}
-    cd ..
-done
+if [[ $parallel != none ]]; then
+    cd images
+    for benchmark in ${BENCHMARKS[@]}; do
+        cd gc-${workload_name}-${benchmark}
+        cmd="cp -rf gc-${workload_name}-${benchmark}-bin gc-${workload_name}-${benchmark}.img ${path_firesim_workloads}"
+        echo "${cmd}"
+        eval ${cmd}
+        cd ..
+    done
+fi
+
+if [[ $parallel == none ]]; then
+cd images 
+cd gc-${workload_name}
+cmd="cp -rf gc-${workload_name}-bin gc-${workload_name}.img ${path_firesim_workloads}"
+echo "${cmd}"
+eval ${cmd}
+fi
 
 cmd="firesim launchrunfarm && firesim infrasetup && firesim runworkload"
 echo "${cmd}"
 eval ${cmd}
 
-# cmd="echo yes | firesim terminaterunfarm"
-# echo "${cmd}"
-# eval ${cmd}
+cmd="echo yes | firesim terminaterunfarm"
+echo "${cmd}"
+eval ${cmd}
 
 # cmd="sudo poweroff -f"
 # echo "${cmd}"
