@@ -88,8 +88,8 @@ fi
 
 if [[ $parallel == none ]]; then
 cd images 
-cd gc-${workload_name}
-cmd="cp -rf gc-${workload_name}-bin gc-${workload_name}.img ${path_firesim_workloads}"
+cd gc-${workload_name}-all
+cmd="cp -rf gc-${workload_name}-all-bin gc-${workload_name}-all.img ${path_firesim_workloads}"
 echo "${cmd}"
 eval ${cmd}
 fi

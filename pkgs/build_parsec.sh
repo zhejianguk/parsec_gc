@@ -21,18 +21,9 @@ export PATH_PKGS=$PWD
 cd $PATH_GC_KERNELS
 
 make clean
+
 make gc_main_${gc_kernel}
-cp gc_main_${gc_kernel}.o $PATH_PKGS
-
-if [[ $gc_kernel != pmc ]]; then
-    make malloc
-fi
-
-if [[ $gc_kernel == ss ]]; then
-    make gc_checker_ss
-    cp gc_checker_ss.riscv $PATH_PKGS
-fi
-
+make malloc
 
 if [[ $gc_kernel != none ]]; then
     make initialisation_${gc_kernel}
