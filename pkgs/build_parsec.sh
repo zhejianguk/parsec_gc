@@ -30,9 +30,21 @@ if [[ $gc_kernel != none ]]; then
     cp initialisation_${gc_kernel}.riscv $PATH_PKGS
 fi
 
+# if [[ $gc_kernel == "ss_mc" ]]; then
+#    make gc_main_ss_mc_agg
+#    make gc_main_ss_mc_c1
+#    make gc_main_ss_mc_c2
+#    make gc_main_ss_mc_c3 
+
+#    cp gc_main_ss_mc_agg.riscv $PATH_PKGS
+#    cp gc_main_ss_mc_c1.riscv $PATH_PKGS
+#    cp gc_main_ss_mc_c2.riscv $PATH_PKGS
+#    cp gc_main_ss_mc_c3.riscv $PATH_PKGS
+# fi
+
 cd $PATH_PKGS
 
-BENCHMARKS=(blackscholes bodytrack dedup facesim ferret fluidanimate freqmine streamcluster swaptions x264)
+BENCHMARKS=(blackscholes bodytrack)
 
 cmd="parsecmgmt -a clean -p all"
 eval ${cmd}
