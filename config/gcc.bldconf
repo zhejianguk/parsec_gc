@@ -11,8 +11,7 @@ export CC_HOME="$RISCV"
 export BINUTIL_HOME="$RISCV"
 export GNUTOOL_HOME="/usr"
 export BINARY_PREFIX="riscv64-unknown-linux-gnu-"
-# export GC_KERNEL="/home/centos/gc_kernel/gc_main_none.o"
-export GC_KERNEL="/home/centos/gc_kernel/gc_main_ss_mc.o /home/centos/gc_kernel/malloc.o -Wl,--allow-multiple-definition"
+export GC_KERNEL="/home/centos/gc_kernel/gc_main_ss.o /home/centos/gc_kernel/malloc.o -Wl,--allow-multiple-definition"
 
 if [ -z "$HOSTCC" ]; then
   export HOSTCC=gcc
@@ -43,10 +42,10 @@ export RANLIB="${BINUTIL_HOME}/bin/${BINARY_PREFIX}ranlib"
 export STRIP="${BINUTIL_HOME}/bin/${BINARY_PREFIX}strip"
 
 # Arguments to use
-export CFLAGS=" $CFLAGS"
-export CXXFLAGS="$CXXFLAGS -fpermissive -fno-exceptions -std=c++17"
-export CPPFLAGS=""
-export CXXCPPFLAGS=""
+export CFLAGS=" $CFLAGS -O3"
+export CXXFLAGS="$CXXFLAGS  -O3 -fpermissive -fno-exceptions -std=c++17"
+export CPPFLAGS="-O3"
+export CXXCPPFLAGS="-O3"
 export LIBS="${GC_KERNEL} -lpthread"
 export EXTRA_LIBS=""
 export PARMACS_MACRO_FILE="pthreads"

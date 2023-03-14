@@ -23,7 +23,7 @@ path_firesim_workloads=${path_firesim}/deploy/workloads/gc-parsec
 
 path_parsec_pkgs=${path_parsec}/pkgs
 
-BENCHMARKS=(blackscholes bodytrack dedup facesim ferret fluidanimate freqmine streamcluster swaptions x264)
+BENCHMARKS=(blackscholes bodytrack dedup ferret fluidanimate freqmine streamcluster swaptions x264)
 
 cd ${path_firesim_sw_workloads}
 if [ -r "pkgs" ]; then
@@ -31,6 +31,11 @@ if [ -r "pkgs" ]; then
     echo "${cmd}"
     eval ${cmd}
 fi
+
+cd ${path_firesim_sw}/images
+cmd="rm -rf gc-parsec*"
+echo "${cmd}"
+eval ${cmd}
 
 cd ${path_firesim_workloads}
 cmd="rm -rf ${path_firesim_workloads}/*"
