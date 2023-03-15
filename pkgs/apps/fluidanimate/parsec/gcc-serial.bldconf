@@ -3,5 +3,4 @@
 source ${PARSECDIR}/pkgs/apps/fluidanimate/parsec/gcc.bldconf
 
 # Override build environment
-build_env="version=serial"
-
+# build_env="version=serial"
