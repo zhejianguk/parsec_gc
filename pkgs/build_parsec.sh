@@ -44,7 +44,7 @@ fi
 
 cd $PATH_PKGS
 
-BENCHMARKS=(blackscholes bodytrack)
+BENCHMARKS=(blackscholes bodytrack dedup ferret fluidanimate freqmine streamcluster swaptions x264)
 
 cmd="parsecmgmt -a clean -p all"
 eval ${cmd}
