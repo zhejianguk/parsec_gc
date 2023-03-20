@@ -13,7 +13,7 @@ export GNUTOOL_HOME="/usr"
 export GC_Kernel=""
 
 if [ -z "$HOSTCC" ]; then
-  export HOSTCC=gcc
+  export HOSTCC=clang
 fi
 if [ -z "$M4" ]; then
   export M4=m4
@@ -26,9 +26,9 @@ if [ -z "$TARGET_CROSS" ]; then
 fi
 
 # Compilers and preprocessors
-export CC="${TARGET_CROSS}gcc"
-export CXX="${TARGET_CROSS}g++"
-export CPP="${TARGET_CROSS}cpp"
+export CC="${TARGET_CROSS}clang"
+export CXX="${TARGET_CROSS}clang++"
+export CPP="${TARGET_CROSS}clang-cpp-10"
 export CXXCPP=""
 
 # GNU Binutils
@@ -39,14 +39,14 @@ export RANLIB="${TARGET_CROSS}ranlib"
 export STRIP="${TARGET_CROSS}strip"
 
 # Arguments to use
-export CFLAGS=" $CFLAGS -fsanitize=address"
-export CXXFLAGS="$CXXFLAGS -fpermissive -fno-exceptions -std=c++17 -fsanitize=address"
-export CPPFLAGS="-fsanitize=address"
-export CXXCPPFLAGS="-fsanitize=address"
-export LIBS="$GC_Kernel"
-export EXTRA_LIBS=""
-export PARMACS_MACRO_FILE="pthreads"
-export LDFLAGS="-fsanitize=address"
+export CFLAGS=" $CFLAGS -O3 -fsanitize=safe-stack"
+export CXXFLAGS="$CXXFLAGS -O3 -fsanitize=safe-stack -fpermissive -fno-exceptions -std=c++17"
+export CPPFLAGS="-O3 -fsanitize=safe-stack"
+export CXXCPPFLAGS="-O3 -fsanitize=safe-stack"
+export LIBS="${GC_KERNEL} -lpthread -fsanitize=safe-stack"
+export EXTRA_LIBS="-fsanitize=safe-stack"
+export PARMACS_MACRO_FILE="pthreads -fsanitize=safe-stack"
+export LDFLAGS="-fsanitize=safe-stack"
 # Add PARSEC version to compiler flags
 if [ -f "${PARSECDIR}/version" ]; then
   CFLAGS="${CFLAGS} -DPARSEC_VERSION=$(${CAT} ${PARSECDIR}/version)"

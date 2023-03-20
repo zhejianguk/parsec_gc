@@ -7,12 +7,12 @@
 
 # CC contains the current compiler.  This one MUST be defined
 CC=cc
-CFLAGS=$(CFLAG) -fsanitize=address
+CFLAGS=$(CFLAG) -fsanitize=safe-stack
 # LDFLAGS contains flags to be used when temporary object files (when building
 # shared libraries) are created, or when an application is linked.
 # SHARED_LDFLAGS contains flags to be used when the shared library is created.
-LDFLAGS= -fsanitize=address
-SHARED_LDFLAGS= -fsanitize=address
+LDFLAGS= -fsanitize=safe-stack
+SHARED_LDFLAGS= -fsanitize=safe-stack
 
 # LIBNAME contains just the name of the library, without prefix ("lib"
 # on Unix, "cyg" for certain forms under Cygwin...) or suffix (.a, .so,

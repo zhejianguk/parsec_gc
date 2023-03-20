@@ -8,7 +8,7 @@
 
 void icdf_baseline(const int N, FTYPE *in, FTYPE *out){
       
-  register FTYPE z, r;
+  FTYPE z, r;
   
  const FTYPE
     a1 = -3.969683028665376e+01,

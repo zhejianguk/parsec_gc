@@ -377,7 +377,7 @@ int main(int argc, char **argv)
 #ifdef PARSEC_VERSION
 #define __PARSEC_STRING(x) #x
 #define __PARSEC_XSTRING(x) __PARSEC_STRING(x)
-        cout << "PARSEC Benchmark Suite Version "__PARSEC_XSTRING(PARSEC_VERSION) << endl << flush;
+        cout << "PARSEC Benchmark Suite Version " << endl << flush;
 #else
         cout << "PARSEC Benchmark Suite" << endl << flush;
 #endif //PARSEC_VERSION

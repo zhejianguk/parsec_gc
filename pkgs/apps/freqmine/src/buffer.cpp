@@ -101,9 +101,9 @@ char * memory::newbuf(unsigned int num,unsigned int size)
 //	get num times size bytes from the buffer (if possible) 
 //  RETURN: pointer to the first element
 { 
-	register unsigned int i;
-  	register int pos;
-  	char *hlp;			// save current position in hlp 
+	unsigned int i;
+  int pos;
+  char *hlp;			// save current position in hlp 
 
 	size += (i=(size & L2BITS))? MULTOF - i : 0;     // size must be a multiple of MULTOF
 	i = num * size;

@@ -2275,7 +2275,7 @@ int main(int argc, char **argv)
 #ifdef PARSEC_VERSION
 #define __PARSEC_STRING(x) #x
 #define __PARSEC_XSTRING(x) __PARSEC_STRING(x)
-        fprintf(stderr,"PARSEC Benchmark Suite Version "__PARSEC_XSTRING(PARSEC_VERSION)"\n");
+        fprintf(stderr,"PARSEC Benchmark Suite Version ""\n");
 	fflush(NULL);
 #else
         fprintf(stderr,"PARSEC Benchmark Suite\n");

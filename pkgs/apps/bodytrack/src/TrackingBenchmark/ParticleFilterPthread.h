@@ -133,7 +133,7 @@ void ParticleFilterPthread<T>::Exec(threads::thread_cmd_t cmd, threads::thread_r
 			for(i = ticket; i < mNParticles && i < ticket + WORKUNIT_SIZE_NEWPARTICLES; i++) {
 				//add new particle for each entry in each bin distributed randomly about duplicated particle
 				mNewParticles[i] = mParticles[mIndex[i]];
-				AddGaussianNoise(mNewParticles[i], mModel->StdDevs()[annealing_parameter], mRnd[i]);
+				// AddGaussianNoise(mNewParticles[i], mModel->StdDevs()[annealing_parameter], mRnd[i]);
 			}
 			ticket = particleTickets.getTicket();
 		}
