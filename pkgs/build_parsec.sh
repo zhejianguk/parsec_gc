@@ -16,35 +16,38 @@ done
 input_type=simmedium
 
 export PATH_GC_KERNELS="/home/centos/gc_kernel/"
+export PATH_MS_KERNELS="/home/centos/asplos22-minesweeper-reproduce/lib"
+
 export PATH_PKGS=$PWD
 
-cd $PATH_GC_KERNELS
+if [[ $gc_kernel != minesweeper ]]; then
+    cd $PATH_GC_KERNELS
+    make clean
 
-make clean
+    make gc_main_${gc_kernel}
+    make malloc
 
-make gc_main_${gc_kernel}
-make malloc
-
-if [[ $gc_kernel != none ]]; then
     make initialisation_${gc_kernel}
     cp initialisation_${gc_kernel}.riscv $PATH_PKGS
+
+    cd $PATH_PKGS
+fi 
+
+
+
+if [[ $gc_kernel == minesweeper ]]; then
+    cd $PATH_GC_KERNELS
+    make clean
+    make gc_main_none
+
+    cd $PATH_PKGS
+    cp ${PATH_MS_KERNELS}/libjemalloc.so ./
+    cp ${PATH_MS_KERNELS}/libminesweeper.so ./
+    cp /home/centos/asplos22-minesweeper-reproduce/lib/* /home/lb_ms
 fi
 
-# if [[ $gc_kernel == "ss_mc" ]]; then
-#    make gc_main_ss_mc_agg
-#    make gc_main_ss_mc_c1
-#    make gc_main_ss_mc_c2
-#    make gc_main_ss_mc_c3 
 
-#    cp gc_main_ss_mc_agg.riscv $PATH_PKGS
-#    cp gc_main_ss_mc_c1.riscv $PATH_PKGS
-#    cp gc_main_ss_mc_c2.riscv $PATH_PKGS
-#    cp gc_main_ss_mc_c3.riscv $PATH_PKGS
-# fi
-
-cd $PATH_PKGS
-
-BENCHMARKS=(blackscholes bodytrack dedup ferret fluidanimate freqmine streamcluster swaptions x264)
+BENCHMARKS=(blackscholes bodytrack dedup)
 
 cmd="parsecmgmt -a clean -p all"
 eval ${cmd}
@@ -61,6 +64,11 @@ for benchmark in ${BENCHMARKS[@]}; do
     eval ${cmd}
 
 done
+
+if [[ $gc_kernel == minesweeper ]]; then
+    rm /home/lb_ms/*
+fi
+
 
 echo ""
 echo "All Done!"
