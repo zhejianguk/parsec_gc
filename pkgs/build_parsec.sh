@@ -20,25 +20,20 @@ export PATH_MS_KERNELS="/home/centos/asplos22-minesweeper-reproduce/lib"
 
 export PATH_PKGS=$PWD
 
-if [[ $gc_kernel != minesweeper ]]; then
-    cd $PATH_GC_KERNELS
-    make clean
+cd $PATH_GC_KERNELS
+make clean
 
-    make gc_main_${gc_kernel}
-    make malloc
+make gc_main_${gc_kernel}
+make malloc
 
-    make initialisation_${gc_kernel}
-    cp initialisation_${gc_kernel}.riscv $PATH_PKGS
-
-    cd $PATH_PKGS
-fi 
-
+make initialisation_${gc_kernel}
+cp initialisation_${gc_kernel}.riscv $PATH_PKGS
 
 
 if [[ $gc_kernel == minesweeper ]]; then
-    cd $PATH_GC_KERNELS
-    make clean
-    make gc_main_none
+    # cd $PATH_GC_KERNELS
+    # make clean
+    # make gc_main_none
 
     cd $PATH_PKGS
     cp ${PATH_MS_KERNELS}/libjemalloc.so ./
@@ -47,7 +42,7 @@ if [[ $gc_kernel == minesweeper ]]; then
 fi
 
 
-BENCHMARKS=(blackscholes bodytrack dedup)
+BENCHMARKS=(blackscholes bodytrack ferret fluidanimate freqmine streamcluster swaptions x264)
 
 cmd="parsecmgmt -a clean -p all"
 eval ${cmd}

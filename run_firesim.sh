@@ -20,7 +20,6 @@ workload_name=parsec
 path_firesim_sw=${path_firesim}/sw/FireMarshal
 path_firesim_sw_workloads=${path_firesim_sw}/gc-${workload_name}-workloads/gc-${workload_name}/overlay/root
 path_firesim_workloads=${path_firesim}/deploy/workloads/gc-parsec
-
 path_parsec_pkgs=${path_parsec}/pkgs
 
 BENCHMARKS=(blackscholes)
@@ -43,7 +42,7 @@ echo "${cmd}"
 eval ${cmd}
 
 cd ${path_parsec_pkgs}
-cmd="./build_parsec.sh -k ${gc_kernel}"
+cmd="./build_parsec_r.sh -k ${gc_kernel}"
 echo "${cmd}"
 eval ${cmd}
 
@@ -103,6 +102,6 @@ cmd="firesim launchrunfarm && firesim infrasetup && firesim runworkload"
 echo "${cmd}"
 eval ${cmd}
 
-cmd="echo yes | firesim terminaterunfarm"
-echo "${cmd}"
-eval ${cmd}
+# cmd="echo yes | firesim terminaterunfarm"
+# echo "${cmd}"
+# eval ${cmd}
