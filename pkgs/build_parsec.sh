@@ -42,7 +42,7 @@ if [[ $gc_kernel == minesweeper ]]; then
 fi
 
 
-BENCHMARKS=(blackscholes bodytrack ferret fluidanimate freqmine streamcluster swaptions x264)
+BENCHMARKS=(blackscholes bodytrack dedup ferret fluidanimate streamcluster swaptions x264)
 
 cmd="parsecmgmt -a clean -p all"
 eval ${cmd}

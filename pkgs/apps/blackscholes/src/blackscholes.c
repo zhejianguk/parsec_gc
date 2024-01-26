@@ -395,7 +395,6 @@ int main (int argc, char **argv)
 #endif
     printf("Num of Options: %d\n", numOptions);
     printf("Num of Runs: %d\n", NUM_RUNS);
-
 #define PAD 256
 #define LINESIZE 64
 

@@ -1,0 +1,26 @@
+{
+    "FpgaImages": [
+        {
+            "FpgaImageId": "afi-017c23f01cf542516",
+            "FpgaImageGlobalId": "agfi-020d938b442ccaea0",
+            "Name": "r_boom_4w_1c_rocket_4c_no_nic_15mhz",
+            "Description": "firesim-buildtriplet:FireSim-DDR3FRFCFSLLC4MB_WithDefaultFireSimBridges_WithFireSimHighPerfConfigTweaks_chipyard.RocketConfig-F15MHz_BaseF1Config,firesim-deploytriplet:FireSim-DDR3FRFCFSLLC4MB_WithDefaultFireSimBridges_WithFireSimHighPerfConfigTweaks_chipyard.RocketConfig-F15MHz_BaseF1Config,firesim-commit:8c5416c09808c34e674d30ee0d81fa07335d952d-dirty",
+            "ShellVersion": "0x04261818",
+            "PciId": {
+                "DeviceId": "0xf000",
+                "VendorId": "0x1d0f",
+                "SubsystemId": "0x1d51",
+                "SubsystemVendorId": "0xfedd"
+            },
+            "State": {
+                "Code": "available"
+            },
+            "CreateTime": "2024-01-08T03:43:54.000Z",
+            "UpdateTime": "2024-01-08T05:11:51.000Z",
+            "OwnerId": "449254460193",
+            "Tags": [],
+            "Public": false,
+            "DataRetentionSupport": false
+        }
+    ]
+}

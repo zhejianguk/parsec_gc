@@ -26,7 +26,7 @@ make initialisation_${gc_kernel}
 cp initialisation_${gc_kernel}.riscv $PATH_PKGS
 
 
-BENCHMARKS=(blackscholes)
+BENCHMARKS=(freqmine)
 
 cmd="parsecmgmt -a clean -p all"
 eval ${cmd}

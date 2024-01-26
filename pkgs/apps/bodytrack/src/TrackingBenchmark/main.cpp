@@ -354,11 +354,12 @@ int mainSingleThread(string path, int cameras, int frames, int particles, int la
 		if(!pf.Update((float)i))														//Run particle filter step
 		{	cout << "Error loading observation data" << endl;
 			return 0;
-		}		
+		}
 		pf.Estimate(estimate);															//get average pose of the particle distribution
 		WritePose(outputFileAvg, estimate);
-		if(OutputBMP)
+		if(OutputBMP) {
 			pf.Model().OutputBMP(estimate, i);											//save output bitmap file
+		}
 	}
 #if defined(ENABLE_PARSEC_HOOKS)
         __parsec_roi_end();
