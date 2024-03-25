@@ -22,7 +22,7 @@ path_firesim_sw_workloads=${path_firesim_sw}/gc-${workload_name}-workloads/gc-${
 path_firesim_workloads=${path_firesim}/deploy/workloads/gc-parsec
 path_parsec_pkgs=${path_parsec}/pkgs
 
-BENCHMARKS=(x264)
+BENCHMARKS=(bodytrack)
 
 cd ${path_firesim_sw_workloads}
 if [ -r "pkgs" ]; then
@@ -102,6 +102,6 @@ cmd="firesim launchrunfarm && firesim infrasetup && firesim runworkload"
 echo "${cmd}"
 eval ${cmd}
 
-# cmd="echo yes | firesim terminaterunfarm"
-# echo "${cmd}"
-# eval ${cmd}
+cmd="echo yes | firesim terminaterunfarm"
+echo "${cmd}"
+eval ${cmd}
