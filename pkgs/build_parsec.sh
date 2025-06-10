@@ -15,34 +15,19 @@ done
 
 input_type=simmedium
 
-export PATH_GC_KERNELS="/home/centos/gc_kernel/"
-export PATH_MS_KERNELS="/home/centos/asplos22-minesweeper-reproduce/lib"
-
+export PATH_GC_KERNELS="/home/centos/r-kernel_firesim/"
 export PATH_PKGS=$PWD
 
 cd $PATH_GC_KERNELS
 make clean
-
-make gc_main_${gc_kernel}
-make malloc
+make main_${gc_kernel}
 
 make initialisation_${gc_kernel}
 cp initialisation_${gc_kernel}.riscv $PATH_PKGS
 
 
-if [[ $gc_kernel == minesweeper ]]; then
-    # cd $PATH_GC_KERNELS
-    # make clean
-    # make gc_main_none
-
-    cd $PATH_PKGS
-    cp ${PATH_MS_KERNELS}/libjemalloc.so ./
-    cp ${PATH_MS_KERNELS}/libminesweeper.so ./
-    cp /home/centos/asplos22-minesweeper-reproduce/lib/* /home/lb_ms
-fi
-
-
-BENCHMARKS=(blackscholes bodytrack dedup ferret fluidanimate streamcluster freqmine swaptions x264)
+# BENCHMARKS=(blackscholes bodytrack swaptions x264)
+BENCHMARKS=(dedup)
 
 cmd="parsecmgmt -a clean -p all"
 eval ${cmd}
@@ -59,11 +44,6 @@ for benchmark in ${BENCHMARKS[@]}; do
     eval ${cmd}
 
 done
-
-if [[ $gc_kernel == minesweeper ]]; then
-    rm /home/lb_ms/*
-fi
-
 
 echo ""
 echo "All Done!"
