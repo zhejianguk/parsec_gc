@@ -27,7 +27,7 @@ cp initialisation_${gc_kernel}.riscv $PATH_PKGS
 
 
 # BENCHMARKS=(blackscholes bodytrack swaptions x264)
-BENCHMARKS=(blackscholes bodytrack dedup ferret fluidanimate streamcluster freqmine swaptions x264)
+BENCHMARKS=(dedup)
 
 cmd="parsecmgmt -a clean -p all"
 eval ${cmd}
