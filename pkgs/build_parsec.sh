@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Ensure we're on the RISC-V branch
+cd /home/zhejiang/FireGuard_V2
+git checkout RISC-V
+cd - > /dev/null
+
 gc_kernel=none
 
 rm -f *.o
