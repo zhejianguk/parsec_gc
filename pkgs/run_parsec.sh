@@ -1,5 +1,32 @@
 #!/bin/bash
 
+# Ensure we're on the RISC-V branch in both main repo and submodule
+echo "Ensuring correct branch setup for benchmark execution..."
+
+# Switch to main repository root
+REPO_ROOT="/home/zhejiang/FireGuard_V2"
+cd "$REPO_ROOT"
+
+# Ensure main repository is on RISC-V branch
+echo "Checking out RISC-V branch in main repository..."
+git checkout RISC-V
+
+# Ensure submodule is initialized and updated
+echo "Updating submodule..."
+git submodule update --init --recursive
+
+# Switch to submodule and ensure it's on RISC-V branch
+echo "Checking out RISC-V branch in parsec-benchmark submodule..."
+cd Software/linux/parsecv3/parsec-benchmark
+git checkout RISC-V 2>/dev/null || {
+    echo "RISC-V branch not found in submodule, creating it..."
+    git checkout -b RISC-V
+}
+
+# Return to the run script directory
+cd pkgs
+echo "Branch setup complete."
+
 gc_kernel=none
 
 # Input flags
