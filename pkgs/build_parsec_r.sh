@@ -15,19 +15,21 @@ done
 
 input_type=simmedium
 
-export PATH_GC_KERNELS="/home/centos/r-kernel_firesim/"
+export PATH_GC_KERNELS="../../../kernels/"
 export PATH_PKGS=$PWD
 
 cd $PATH_GC_KERNELS
 make clean
-make main_${gc_kernel}
+make gc_main_${gc_kernel}
 
 make initialisation_${gc_kernel}
 cp initialisation_${gc_kernel}.riscv $PATH_PKGS
 
+export GC_KERNELS="${PATH_GC_KERNELS}/gc_main_${gc_kernel}.o"
+
 
 # BENCHMARKS=(blackscholes bodytrack swaptions x264)
-BENCHMARKS=(blackscholes bodytrack dedup ferret fluidanimate streamcluster freqmine swaptions x264)
+BENCHMARKS=(blackscholes bodytrack dedup ferret fluidanimate freqmine streamcluster swaptions)
 
 cmd="parsecmgmt -a clean -p all"
 eval ${cmd}
