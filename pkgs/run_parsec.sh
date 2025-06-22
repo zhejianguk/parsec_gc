@@ -1,39 +1,13 @@
 #!/bin/bash
-
-# Ensure we're on the RISC-V branch in both main repo and submodule
-echo "Ensuring correct branch setup for benchmark execution..."
-
-# Switch to main repository root
-REPO_ROOT="/home/zhejiang/FireGuard_V2"
-cd "$REPO_ROOT"
-
-# Ensure main repository is on RISC-V branch
-echo "Checking out RISC-V branch in main repository..."
-git checkout RISC-V
-
-# Ensure submodule is initialized and updated
-echo "Updating submodule..."
-git submodule update --init --recursive
-
-# Switch to submodule and ensure it's on RISC-V branch
-echo "Checking out RISC-V branch in parsec-benchmark submodule..."
-cd Software/linux/parsecv3/parsec-benchmark
-git checkout RISC-V 2>/dev/null || {
-    echo "RISC-V branch not found in submodule, creating it..."
-    git checkout -b RISC-V
-}
-
-# Return to the run script directory
-cd pkgs
-echo "Branch setup complete."
-
 gc_kernel=none
+specific_benchmark=""
 
 # Input flags
-while getopts k: flag
+while getopts k:b: flag
 do
 	case "${flag}" in
 		k) gc_kernel=${OPTARG};;
+		b) specific_benchmark=${OPTARG};;
 	esac
 done
 
@@ -41,8 +15,22 @@ input_type=simmedium
 arch=amd64-linux # Revist: currently is the arch of the host machine
 
 
-BENCHMARKS=(blackscholes bodytrack dedup facesim ferret fluidanimate freqmine streamcluster swaptions x264)
+BENCHMARKS=(blackscholes bodytrack dedup ferret fluidanimate freqmine streamcluster swaptions x264)
 base_dir=$PWD
+
+# If specific benchmark is provided, validate it and use only that benchmark
+if [ "$specific_benchmark" != "" ]; then
+    if [[ " ${BENCHMARKS[@]} " =~ " ${specific_benchmark} " ]]; then
+        BENCHMARKS=($specific_benchmark)
+        echo "Running specific benchmark: $specific_benchmark"
+    else
+        echo "Error: Invalid benchmark '$specific_benchmark'. Available benchmarks: ${BENCHMARKS[@]}"
+        echo "Usage: $0 [-k gc_kernel] [-b benchmark_name]"
+        exit 1
+    fi
+else
+    echo "Running all benchmarks: ${BENCHMARKS[@]}"
+fi
 
 if [ $gc_kernel != "none" ]; then 
     ./initialisation_${gc_kernel}.riscv
@@ -73,7 +61,7 @@ for benchmark in ${BENCHMARKS[@]}; do
             cmd="time ./${benchmark} ${input}"
             echo "workload=[${cmd}]"
             eval ${cmd}
-            rm ./${benchmark}
+            rm ./${benchmark}                                                                                                                                        r
             ((count++))
         fi
     done
