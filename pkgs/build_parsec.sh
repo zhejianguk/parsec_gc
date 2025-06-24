@@ -4,6 +4,7 @@
 # Usage: ./build_parsec_r.sh [-c compiler] [-k kernel] [-i input] [-b benchmark]
 
 # Default values
+PATH_PKGS=$PWD
 COMPILER="riscv"
 GC_KERNEL="none" 
 INPUT_SIZE="simmedium"
@@ -64,20 +65,86 @@ function run_benchmark() {
     local benchmark=$1
     
     echo "Building and running: $benchmark"
+    echo "  Using GC_KERNEL: $GC_KERNEL"
+    
+    # Construct the full path to the kernel object file
+    local GC_KERNEL_PATH=""
+    if [ "$GC_KERNEL" != "none" ]; then
+        GC_KERNEL_PATH="/home/zhejiang/FireGuard_V2/Software/linux/kernels/gc_main_${GC_KERNEL}.o"
+        echo "  GC_KERNEL_PATH: $GC_KERNEL_PATH"
+
+        cd "/home/zhejiang/FireGuard_V2/Software/linux/kernels"
+        make clean
+       
+        
+        # Check if kernel object file exists, if not try to build it
+        if [ ! -f "$GC_KERNEL_PATH" ]; then
+            echo "  Kernel object file not found, attempting to build it..."
+            make malloc
+            make gc_main_${GC_KERNEL}
+            make initialisation_${GC_KERNEL}
+            cp initialisation_${GC_KERNEL}.riscv $PATH_PKGS
+            
+            if [ ! -f "$GC_KERNEL_PATH" ]; then
+                echo "  Warning: Failed to build kernel object file: $GC_KERNEL_PATH"
+            fi
+        fi
+    fi
     
     # Export environment variables before running parsecmgmt
     export COMPILER_TYPE="$COMPILER"
     export GC_KERNEL_TYPE="$GC_KERNEL"
+    export GC_KERNEL="$GC_KERNEL_PATH"  # This is what gcc.bldconf expects - full path to .o file
     export KERNELS_PATH="/home/zhejiang/FireGuard_V2/Software/linux/kernels"
+    
+    # Debug: Check environment variables before build
+    echo "  Pre-build environment check:"
+    echo "    COMPILER_TYPE: $COMPILER_TYPE"
+    echo "    GC_KERNEL_TYPE: $GC_KERNEL_TYPE"  
+    echo "    GC_KERNEL: $GC_KERNEL"
+    echo "    KERNELS_PATH: $KERNELS_PATH"
     
     # Run PARSEC benchmark with bash environment
     bash -c "
+        # Export variables in the subshell as well
+        export COMPILER_TYPE='$COMPILER_TYPE'
+        export GC_KERNEL_TYPE='$GC_KERNEL_TYPE'
+        export GC_KERNEL='$GC_KERNEL_PATH'
+        export KERNELS_PATH='$KERNELS_PATH'
+        
+        # Debug: Check environment variables in subshell
+        echo '  Subshell environment check:'
+        echo '    COMPILER_TYPE: '\$COMPILER_TYPE
+        echo '    GC_KERNEL_TYPE: '\$GC_KERNEL_TYPE
+        echo '    GC_KERNEL: '\$GC_KERNEL
+        echo '    KERNELS_PATH: '\$KERNELS_PATH
+        
         source ../env.sh
-        echo 'Environment check:'
+        
+        echo 'Environment check after sourcing env.sh:'
         echo '  CC: '\$CC
         echo '  CXX: '\$CXX
         echo '  COMPILER_TYPE: '\$COMPILER_TYPE
+        echo '  GC_KERNEL: '\$GC_KERNEL
         echo '  PARSECPLAT: '\$PARSECPLAT
+        
+        # Force clean configuration to prevent caching issues
+        echo 'Forcing clean build configuration...'
+        parsecmgmt -a fullclean -p $benchmark || true
+        parsecmgmt -a clean -p $benchmark || true
+        parsecmgmt -a fulluninstall -p $benchmark || true
+        
+        # Debug: Check if gcc.bldconf is being read with correct GC_KERNEL
+        echo 'Checking gcc.bldconf usage:'
+        echo 'GC_KERNEL variable before build: '\$GC_KERNEL
+        echo 'Contents of gcc.bldconf LIBS line:'
+        grep 'export LIBS' ../config/gcc.bldconf || echo 'LIBS line not found'
+        
+        # Force gcc.bldconf to be re-read by sourcing it directly
+        echo 'Sourcing gcc.bldconf directly to ensure fresh configuration...'
+        source ../config/gcc.bldconf
+        echo 'GC_KERNEL after sourcing gcc.bldconf: '\$GC_KERNEL
+        
         parsecmgmt -a build -p $benchmark -c gcc-serial
         parsecmgmt -a run -p $benchmark -c gcc-serial -i $INPUT_SIZE
     "
