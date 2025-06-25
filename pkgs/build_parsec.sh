@@ -90,7 +90,7 @@ function run_benchmark() {
             fi
         fi
     fi
-    
+        
     # Export environment variables before running parsecmgmt
     export COMPILER_TYPE="$COMPILER"
     export GC_KERNEL_TYPE="$GC_KERNEL"
@@ -112,15 +112,6 @@ function run_benchmark() {
         export GC_KERNEL='$GC_KERNEL_PATH'
         export KERNELS_PATH='$KERNELS_PATH'
         
-        # Debug: Check environment variables in subshell
-        echo '  Subshell environment check:'
-        echo '    COMPILER_TYPE: '\$COMPILER_TYPE
-        echo '    GC_KERNEL_TYPE: '\$GC_KERNEL_TYPE
-        echo '    GC_KERNEL: '\$GC_KERNEL
-        echo '    KERNELS_PATH: '\$KERNELS_PATH
-        
-        source ../env.sh
-        
         echo 'Environment check after sourcing env.sh:'
         echo '  CC: '\$CC
         echo '  CXX: '\$CXX
@@ -133,17 +124,6 @@ function run_benchmark() {
         parsecmgmt -a fullclean -p $benchmark || true
         parsecmgmt -a clean -p $benchmark || true
         parsecmgmt -a fulluninstall -p $benchmark || true
-        
-        # Debug: Check if gcc.bldconf is being read with correct GC_KERNEL
-        echo 'Checking gcc.bldconf usage:'
-        echo 'GC_KERNEL variable before build: '\$GC_KERNEL
-        echo 'Contents of gcc.bldconf LIBS line:'
-        grep 'export LIBS' ../config/gcc.bldconf || echo 'LIBS line not found'
-        
-        # Force gcc.bldconf to be re-read by sourcing it directly
-        echo 'Sourcing gcc.bldconf directly to ensure fresh configuration...'
-        source ../config/gcc.bldconf
-        echo 'GC_KERNEL after sourcing gcc.bldconf: '\$GC_KERNEL
         
         parsecmgmt -a build -p $benchmark -c gcc-serial
         parsecmgmt -a run -p $benchmark -c gcc-serial -i $INPUT_SIZE

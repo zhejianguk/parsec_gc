@@ -7,6 +7,18 @@
 # Written by Christian Bienia (Initial version)
 #            Christian Fensch (Sparc/Solaris port)
 
+# Set default RISCV path if not provided
+if [ -z "$RISCV" ]; then
+  if [ -d "/home/zhejiang/firesim/.conda-env/riscv-tools" ]; then
+    export RISCV="/home/zhejiang/firesim/.conda-env/riscv-tools"
+  elif [ -d "/usr/bin" ] && command -v riscv64-unknown-linux-gnu-gcc &> /dev/null; then
+    export RISCV="/usr"
+  else
+    echo "Error: RISCV environment variable not set and no RISC-V toolchain found"
+    exit 1
+  fi
+fi
+
 export CC_HOME="$RISCV"
 export BINUTIL_HOME="$RISCV"
 export GNUTOOL_HOME="/usr"
@@ -28,7 +40,7 @@ fi
 export CC_HOME="$RISCV"
 
 # Compilers and preprocessors
-export CC="${CC_HOME}/bin/${BINARY_PREFIX}gcc -lstdc++"
+export CC="${CC_HOME}/bin/${BINARY_PREFIX}gcc"
 export CXX="${CC_HOME}/bin/${BINARY_PREFIX}g++"
 export CPP="${CC_HOME}/bin/${BINARY_PREFIX}cpp"
 export CXXCPP=""
@@ -45,7 +57,7 @@ export CFLAGS=" $CFLAGS -O3"
 export CXXFLAGS="$CXXFLAGS  -O3 -fpermissive -fno-exceptions -std=c++17"
 export CPPFLAGS="-O3"
 export CXXCPPFLAGS="-O3"
-export LIBS="${GC_KERNEL} -lpthread"
+export LIBS="${GC_KERNEL} -lpthread -lstdc++"
 export EXTRA_LIBS=""
 export PARMACS_MACRO_FILE="pthreads"
 export LDFLAGS="-static"
@@ -60,23 +72,23 @@ export JAVA_HOME="/usr"
 export JAVAC="${JAVA_HOME}/bin/javac"
 
 # Version numbers
-if [ -x ${CC} ]; then
-  CC_ver=$(${CC} --version)
+if [ -x "${CC}" ]; then
+  CC_ver=$(${CC} --version 2>/dev/null || echo "")
 else
   CC_ver=""
 fi
-if [ -x ${CXX} ]; then
-  CXX_ver=$(${CXX} --version)
+if [ -x "${CXX}" ]; then
+  CXX_ver=$(${CXX} --version 2>/dev/null || echo "")
 else
   CXX_ver=""
 fi
-if [ -x ${LD} ]; then
-  LD_ver=$(${LD} --version)
+if [ -x "${LD}" ]; then
+  LD_ver=$(${LD} --version 2>/dev/null || echo "")
 else
   LD_ver=""
 fi
-if [ -x ${JAVAC} ]; then
-  JAVAC_ver=$(${JAVAC} -version 2>&1)
+if [ -x "${JAVAC}" ]; then
+  JAVAC_ver=$(${JAVAC} -version 2>&1 || echo "")
 else
   JAVAC_ver=""
 fi
