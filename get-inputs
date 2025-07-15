@@ -19,7 +19,7 @@ done
 shift "$(($OPTIND - 1))"
 download_dir="${1:-.}"
 outdir="${2:-.}"
-url_base=https://github.com/cirosantilli/parsec-benchmark/releases/download/3.0
+url_base=http://10.201.230.232:8084/benchmark/parsec/
 basenames=''
 basenames="$basenames parsec-3.0-core.tar.gz"
 if "$sim"; then
